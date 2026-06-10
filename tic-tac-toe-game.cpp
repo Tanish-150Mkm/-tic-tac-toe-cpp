@@ -46,7 +46,7 @@ int main(){
     char again;
     do{
     char map[3][3] ={
-        {' ', ' ', ' '},             //empty array
+        {' ', ' ', ' '},             //array initialized with spaces
         {' ', ' ', ' '},
         {' ', ' ', ' '}
     };
@@ -60,22 +60,21 @@ int main(){
     for(int turns = 0;turns<9;turns++)
     {
         printBoard(map); // showing board at starting of the each turn
-    cout<<"Enter row from 1 to 3 : ";
+    cout<<"Player "<<currentplayer<<" Enter row from 1 to 3 : ";
     cin>>row;
-    if(row < 1 || row > 3){
-        cout<<"Invalid input";
-        return 0;
-    }
-    cout<<"Enter col from 1 to 3 : ";
+    cout<<"Player "<<currentplayer<<" Enter col from 1 to 3 : ";
     cin>>col;
-    if(col < 1 || col > 3){
-        cout<<"Invalid input";
-        return 0;
-    }
-    map[row -1][col -1] = currentplayer; //error one was here
+
+        if( row <1 || row >3 || col <1 || col >3 || map[row -1][col -1] != ' '){
+                cout<<"Invalid input try again"<<endl;
+                        turns--; // avoids the wastage of input
+                continue; // go back to start of the loop
+        }
+    map[row -1][col -1] = currentplayer; //X or O is printed
 
 
     //checking the win
+            if( turns >= 4){
     if ( checkwin(map ,currentplayer)){
        printBoard(map);
        cout<<"Player "<<currentplayer<<" won :)"<<endl;
@@ -83,8 +82,9 @@ int main(){
        gameover = true; // gameover is assingend as true
        break; // jumps the for loop
     }
-    ////here we check for win by the checkwin that we have defined alrdy before man code
-    ////so if checkwin is true by any manner[row,col,dia] it will give ture and if condition is true then the if statement will run
+            }
+    ////here we check for win by the checkwin that we have defined alrdy before main code
+    ////so if checkwin is true by any manner[row,col,dia] it will give true and if condition is true then the if statement will run
 
     //switching the players
     if(currentplayer == 'O'){
@@ -95,7 +95,7 @@ int main(){
     }  
 }
     if (!gameover){
-        cout<<"It's a draw";
+        cout<<"It's a draw"<<endl;
     }
 
       //ask to play again
